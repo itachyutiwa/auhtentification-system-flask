@@ -12,8 +12,6 @@ class User:
     return jsonify(user), 200
 
   def signup(self):
-    print(request.form)
-
     # Create the user object
     user = {
       "_id": uuid.uuid4().hex,
@@ -27,12 +25,12 @@ class User:
 
     # Check for existing email address
     if db.users.find_one({ "email": user['email'] }):
-      return jsonify({ "error": "Email address already in use" }), 400
+      return jsonify({ "error": "Adresse Email déjà utilisée!" }), 400
 
     if db.users.insert_one(user):
       return self.start_session(user)
 
-    return jsonify({ "error": "Signup failed" }), 400
+    return jsonify({ "error": "Création de compte échouée!" }), 400
   
   def signout(self):
     session.clear()
@@ -47,4 +45,4 @@ class User:
     if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
       return self.start_session(user)
     
-    return jsonify({ "error": "Invalid login credentials" }), 401
+    return jsonify({ "error": "Paramètres de connexion invalides!" }), 401

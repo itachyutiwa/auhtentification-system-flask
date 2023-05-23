@@ -1,0 +1,28 @@
+{% extends "base_login.html" %} {% block content %}
+<div class="card-wrapper">
+	
+    <div class="card">
+
+      <h1 class="center">{{context.title}}| AKILI</h1>
+
+      <form name="signup_form">
+
+        <label for="name">Nom utilisateur</label>
+        <input type="text" name="name" class="field" required>
+
+        <label for="email">Adresse Email</label>
+        <input type="email" name="email" class="field" required>
+
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" class="field" required>
+
+        <p class="error error--hidden"></p>
+
+        <input type="submit" value="Créer un compte" class="btn">
+      
+      </form>
+      
+    </div>
+
+	
+{% endblock %}
