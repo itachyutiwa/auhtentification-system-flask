@@ -6,7 +6,6 @@ import services.statistiques_et_kpi as statistiques_et_kpi
 import services.database_connexion as database_connexion 
 import generate_graphics as generate_graphics
 
-
 app = Flask(__name__)
 app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
 
@@ -48,6 +47,15 @@ def home():
 def register():
   context = {"title":"Connexion"}
   return render_template('signup.html', context=context)
+
+@app.route('/predictions')
+def predictions():
+  y_pred = ""
+  context = {
+    "title":"Formulaire de prédictions",
+    "prediction":y_pred.to_list()
+    }
+  return render_template('modal_pred.html', context=context)
 
 @app.route('/dashboard/')
 @login_required

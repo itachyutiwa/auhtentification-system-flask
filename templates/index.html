@@ -222,10 +222,17 @@
 													classification de clients bancaires
 												</h4>
 												<p class="card-subtitle mb-4"></p>
-												<form class="needs-validation" novalidate>
+												<form
+													class="needs-validation"
+													novalidate
+													action="/predictions/"
+													method="POST"
+													name="predictions_form"
+													id="myForm"
+												>
 													<div class="form-row">
 														<div class="col-md-6 mb-3">
-															<label for="validationCustom01">BALANCE* </label>
+															<label for="validationCustom01">SOLDE * </label>
 
 															<input
 																type="number"
@@ -234,59 +241,55 @@
 																placeholder="Solde du compte du client"
 																value=""
 																required
+																name="balance"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom02"
-																>BALANCE FREQUENCY *
+																>FRÉQUENCE DE SOLDE *
 															</label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom02"
-																placeholder="Fréquence à laquelle le client vérifie son solde par mois
-
-                                                                    "
+																placeholder="Fréquence à laquelle le client vérifie son solde par mois"
 																value=""
 																required
+																name="balance_freq"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
-															<label for="validationCustom03"
-																>PURCHASES *
-															</label>
+															<label for="validationCustom03">ACHATS * </label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom03"
-																placeholder="Montant total des achats effectués par le client sur son compte
-
-                                                                    "
+																placeholder="Montant total des achats effectués par le client sur son compte"
 																value=""
 																required
+																name="purchases"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom04"
-																>ONEOFF PURCHASES *
+																>ACHATS UNIQUES *
 															</label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom04"
-																placeholder="Montant total des achats effectués en une seule fois par le client
-
-                                                                    "
+																placeholder="Montant total des achats effectués en une seule fois par le client"
 																value=""
 																required
+																name="oneoff_purchases"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom05"
-																>INSTALLMENTS PURCHASES *
+																>ACHATS ÉCHELONNÉS *
 															</label>
 
 															<input
@@ -296,11 +299,12 @@
 																placeholder="Montant total des achats effectués en plusieurs fois par le client"
 																value=""
 																required
+																name="installments_purchase"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom06"
-																>CASH ADVANCE *
+																>AVANCE DE FONDS *
 															</label>
 
 															<input
@@ -310,11 +314,12 @@
 																placeholder="Montant total des avances de fonds effectuées par le client"
 																value=""
 																required
+																name="cash_advance"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom07"
-																>PURCHASES FREQUENCY
+																>FRÉQUENCE D'ACHATS
 															</label>
 
 															<input
@@ -323,12 +328,12 @@
 																id="validationCustom07"
 																placeholder="Fréquence à laquelle le client effectue des achats sur son compte"
 																value=""
-																required
+																name="purchases_freq"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom08"
-																>ONEOFF PURCHASES FREQUENCY *
+																>FRÉQUENCE D'ACHATS UNIQUES *
 															</label>
 
 															<input
@@ -338,27 +343,27 @@
 																placeholder="Fréquence à laquelle le client effectue des achats en une seule fois sur son compte."
 																value=""
 																required
+																name="oneoff_purchases_freq"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom09"
-																>PURCHASES INSTALLMENTS FREQUENCY*
+																>FRÉQUENCE D'ACHATS ÉCHELONNÉS *
 															</label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom09"
-																placeholder="Fréquence à laquelle le client effectue des achats en plusieurs fois sur son compte.
-
-                                                                    "
+																placeholder="Fréquence à laquelle le client effectue des achats en plusieurs fois sur son compte."
 																value=""
 																required
+																name="purchase_installments_freq"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom10"
-																>CASH ADVANCE FREQUENCY
+																>FRÉQUENCE D'AVANCE DE FONDS
 															</label>
 
 															<input
@@ -368,27 +373,27 @@
 																placeholder="Fréquence à laquelle le client effectue des avances de fonds sur son compte."
 																value=""
 																required
+																name="cash_advance_freq"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom11"
-																>CASH ADVANCE TRANSACTION *
+																>TRANSACTIONS D'AVANCE DE FONDS *
 															</label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom11"
-																placeholder="Nombre total de transactions d'avance de fonds effectuées par le client sur son compte
-
-                                                                    "
+																placeholder="Nombre total de transactions d'avance de fonds effectuées par le client sur son compte"
 																value=""
 																required
+																name="cash_advance_trx"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom12"
-																>PURCHASES TRANSACTION *
+																>TRANSACTIONS D'ACHATS *
 															</label>
 
 															<input
@@ -398,11 +403,12 @@
 																placeholder="Nombre total de transactions d'achat effectuées par le client sur son compte"
 																value=""
 																required
+																name="purchases_trx"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom13"
-																>CREDIT LIMIT *
+																>LIMITE DE CRÉDIT *
 															</label>
 
 															<input
@@ -412,11 +418,12 @@
 																placeholder="Limite de crédit du client, c'est-à-dire le montant maximum qu'il peut dépenser sur son compte"
 																value=""
 																required
+																name="credit_limit"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom14"
-																>PAYMENTS *
+																>PAIEMENTS *
 															</label>
 
 															<input
@@ -426,26 +433,27 @@
 																placeholder="Montant total des paiements effectués par le client sur son compte"
 																value=""
 																required
+																name="payments"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom15"
-																>MINIMUM PAYMENTS *
+																>PAIEMENTS MINIMUM *
 															</label>
 
 															<input
 																type="number"
 																class="form-control"
 																id="validationCustom15"
-																placeholder="Montant minimum des paiements que le client doit effectuer chaque mois sur son compte
-                                      "
+																placeholder="Montant minimum des paiements que le client doit effectuer chaque mois sur son compte"
 																value=""
 																required
+																name="min_payments"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
 															<label for="validationCustom16"
-																>PERCENTAGE OF FULL PAYMENT *
+																>TAUX DE PAIEMENT INTÉGRAL *
 															</label>
 
 															<input
@@ -455,10 +463,13 @@
 																placeholder="Pourcentage du solde du compte qui est payé en entier chaque mois par le client"
 																value=""
 																required
+																name="pct_off_full_payment"
 															/>
 														</div>
 														<div class="col-md-6 mb-3">
-															<label for="validationCustom17">TENURE * </label>
+															<label for="validationCustom17"
+																>ANCIENNETE *
+															</label>
 
 															<input
 																type="number"
@@ -468,6 +479,7 @@
 																value=""
 																maxlength="12"
 																required
+																name="tenure"
 															/>
 														</div>
 													</div>

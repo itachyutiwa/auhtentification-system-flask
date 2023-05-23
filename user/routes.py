@@ -13,3 +13,7 @@ def signout():
 @app.route('/user/login', methods=['POST'])
 def login():
   return User().login()
+
+@app.route('/predictions/', methods=['POST'])
+def predict():
+  return User().predict()
