@@ -48,15 +48,6 @@ def register():
   context = {"title":"Inscription"}
   return render_template('signup.html', context=context)
 
-@app.route('/index')
-def index():
-  y_pred = 2
-  context = {
-    "title":"Formulaire de prédictions",
-    "prediction":y_pred.to_list()
-    }
-  return render_template('index.html', context=context)
-
 @app.route('/dashboard/')
 @login_required
 def dashboard():
@@ -101,7 +92,11 @@ def dashboard():
         # Tracer un nuage de points du montant total des achats par rapport à l'ADB
         "nuage_de_points_montant_total_des_achats":graph_html_nuage
   }
-  return render_template('index.html',context=context, graphiques = graphiques)
+
+  predictions= {
+    "prediction":3
+  }
+  return render_template('index.html',context=context, graphiques = graphiques,predictions=predictions)
 
 
 @app.route('/profil/')
@@ -129,3 +124,13 @@ def segments():
     "title":"Segments clients"
     }
   return render_template('segments.html', context=context)
+
+@app.route('/prediction/')
+def form():
+  context = {
+    "title":"Formulaire de prédiction| AKILI"
+  }
+  return render_template('index.html', context=context)
+
+if __name__ == '__main__':
+  app.run(host='0.0.0.0', port=5000)

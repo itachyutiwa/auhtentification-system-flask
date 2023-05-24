@@ -234,6 +234,7 @@
 <script src="../static/js/metismenu.min.js"></script>
 <script src="../static/js/waves.js"></script>
 <script src="../static/js/simplebar.min.js"></script>
+<script src="../static/js/script.js"></script>
 
 <!-- Sparkline Js-->
 <script src="../plugins/jquery-sparkline/jquery.sparkline.min.js"></script>
@@ -260,5 +261,64 @@
 <script src="../static/sweetalert2/sweetalert2.min.js"></script>
 <!-- Sweet Alerts Js-->
 <script src="../static/sweetalert2/sweet-alert-demo.js"></script>
+<script>
+	// Capturez le bouton de prédiction
+var boutonPredire = document.querySelector('button[name="btn_predire_client"]');
+
+// Ajoutez un gestionnaire d'événements pour le clic sur le bouton
+boutonPredire.addEventListener("click", function (event) {
+	// Empêchez le comportement par défaut du bouton (par exemple, la soumission du formulaire)
+	event.preventDefault();
+
+	// Capturez les données du formulaire uniquement si le bouton a été actionné
+	capturerDonneesEtPredire();
+});
+
+function capturerDonneesEtPredire() {
+    // Capturez les données du formulaire et construisez l'objet de données à envoyer à l'API
+    var formData = {
+        BALANCE: document.getElementById('validationCustom01').value,
+        BALANCE_FREQUENCY: document.getElementById('validationCustom02').value,
+        PURCHASES: document.getElementById('validationCustom03').value,
+        ONEOFF_PURCHASES: document.getElementById('validationCustom04').value,
+        INSTALLMENTS_PURCHASES: document.getElementById('validationCustom05').value,
+        CASH_ADVANCE: document.getElementById('validationCustom06').value,
+        PURCHASES_FREQUENCY: document.getElementById('validationCustom07').value,
+        ONEOFF_PURCHASES_FREQUENCY: document.getElementById('validationCustom08').value,
+        PURCHASES_INSTALLMENTS_FREQUENCY: document.getElementById('validationCustom09').value,
+        CASH_ADVANCE_FREQUENCY: document.getElementById('validationCustom10').value,
+        CASH_ADVANCE_TRX: document.getElementById('validationCustom11').value,
+        PURCHASES_TRX: document.getElementById('validationCustom12').value,
+        CREDIT_LIMIT: document.getElementById('validationCustom13').value,
+        PAYMENTS: document.getElementById('validationCustom14').value,
+        MINIMUM_PAYMENTS: document.getElementById('validationCustom15').value,
+        PRC_FULL_PAYMENT: document.getElementById('validationCustom16').value,
+        TENURE: document.getElementById('validationCustom17').value
+    };
+
+    // Appeler l'API
+	url_api = 'http://localhost:8000/predictions'
+    fetch(url_api, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Traiter les données de réponse
+        var prediction = data.prediction;
+
+        // Afficher les données dans le span de classe "prediction"
+        var predictionSpan = document.querySelector('.prediction');
+        predictionSpan.textContent = prediction;
+    })
+    .catch(error => {
+        console.error('Une erreur s\'est produite:', error);
+    });
+}
+
+</script>
 </body>
 </html>

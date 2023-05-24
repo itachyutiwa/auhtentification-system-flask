@@ -25,6 +25,7 @@
 										>
 									</a>
 								</li>
+								
 								<li class="nav-item">
 									<a
 										href="#formulaire"
@@ -229,9 +230,10 @@
 																class="needs-validation"
 																novalidate
 																method="POST"
-																name="predictions_form"
+																name="predire_client_form"
 																id="myForm"
 																action="/index"
+																id="predire_client_form"
 															>
 																<div class="form-row">
 																	<div class="col-md-6 mb-3">
@@ -484,18 +486,18 @@
 																			required
 																			name="tenure"
 																		/>
+
 																	</div>
+																</div>			
 																</div>
-															
-			
-																</div>
+																<!-- Button trigger modal -->
+									  <button  class="btn btn-outline-warning btn-lg btn-block waves-effect waves-light w-100" data-toggle="modal" data-target="#exampleModalCenter" name="btn_predire_client">
+									   Prédire la catégorie de ce client
+								   </button>
 															</form>
 									<div class="col-md-12 mb-3">
 																	
-									  <!-- Button trigger modal -->
-									  <button  class="btn btn-outline-warning btn-lg btn-block waves-effect waves-light w-100" data-toggle="modal" data-target="#exampleModalCenter" name="predire_client">
-									   Prédire la catégorie de ce client
-								   </button>
+									  
 			
 								   <!-- Modal -->
 								   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -508,11 +510,10 @@
 												   </button>
 											   </div>
 											   <div class="modal-body text-center font-size-18 font-weight-bold fw-bold">
-												[<span style="font-size: larger;color: red;">3</span>]
+												[<span class="prediction" style="font-size: larger;color: red;"></span>]
 											   </div>
 											   <div class="modal-footer">
-												   <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Fermer</button>
-												   
+												   <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Fermer</button>									   
 											   </div>
 										   </div>
 									   </div>
@@ -538,10 +539,12 @@
 											  Sélectionner un fichier .xlsx
 											</p>
 											<div>
-											  <input type="file" name="" id="" />
-										
-											  <button type="button" class="btn btn-outline-warning btn-lg btn-block waves-effect waves-light mt-5" id="sa-close">Soumettre</button>
+											  <form action="" method="POST">
+												<input type="file" name="predire_excel_form" id="predire_excel_form"/>
+												<button type="button" name="btn_predire_excel" class="btn btn-outline-warning btn-lg btn-block waves-effect waves-light mt-5 btn_predire_excel" id="sa-close">Soumettre</button>
+											  </form>
 											</div>
+											<i class="bi bi-download">Télécharger</i>
 										  </div>
 										</div>
 									  </div>
