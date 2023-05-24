@@ -45,17 +45,17 @@ def home():
 
 @app.route('/user/signup')
 def register():
-  context = {"title":"Connexion"}
+  context = {"title":"Inscription"}
   return render_template('signup.html', context=context)
 
-@app.route('/predictions')
-def predictions():
-  y_pred = ""
+@app.route('/index')
+def index():
+  y_pred = 2
   context = {
     "title":"Formulaire de prédictions",
     "prediction":y_pred.to_list()
     }
-  return render_template('modal_pred.html', context=context)
+  return render_template('index.html', context=context)
 
 @app.route('/dashboard/')
 @login_required
