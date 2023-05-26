@@ -297,7 +297,7 @@ function capturerDonneesEtPredire() {
     };
 
     // Appeler l'API
-	url_api = 'http://localhost:8000/predictions'
+	url_api = 'http://localhost:8000/predictions';
     fetch(url_api, {
         method: 'POST',
         headers: {
@@ -318,7 +318,518 @@ function capturerDonneesEtPredire() {
         console.error('Une erreur s\'est produite:', error);
     });
 }
+</script>
+
+
+<script>
+var bouton_predire = document.getElementById("predire_client");
+//Fonction de validation de tout le formulaire
+function validationForm(){
+	// Fonction de validation SOLDE
+const balanceInput = document.getElementById('validationCustom01');
+const balanceError = document.getElementById('balance_error');
+
+function validateBalance() {
+  const balanceValue = parseFloat(balanceInput.value);
+
+  if (isNaN(balanceValue) || balanceValue < 0.0 || balanceInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    balanceError.style.display = 'inline';
+    balanceError.textContent = "Le solde doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    balanceError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si le solde est invalide
+validateBalance();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+balanceInput.addEventListener('input', validateBalance);
+
+// Fonction de validation BALANCE_FREQUENCY
+const balance_freqInput = document.getElementById('validationCustom02');
+const balance_freqError = document.getElementById('balance_freq_error');
+
+function validateBalanceFreq() {
+  const balance_freqValue = parseFloat(balance_freqInput.value);
+
+  if (isNaN(balance_freqValue) || balance_freqValue > 1.0 || balance_freqValue < 0.0 || balance_freqInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    balance_freqError.style.display = 'inline';
+    balance_freqError.textContent = "La fréquence de solde doit être comprise entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    balance_freqError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la fréquence de solde est invalide
+validateBalanceFreq();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+balance_freqInput.addEventListener('input', validateBalanceFreq);
+
+// Fonction de validation PURCHASES
+const purchasesInput = document.getElementById('validationCustom03');
+const purchasesError = document.getElementById('purchases_error');
+
+function validatePurchases() {
+  const purchasesValue = parseFloat(purchasesInput.value);
+
+  if (isNaN(purchasesValue) || purchasesValue < 0.0 || purchasesInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    purchasesError.style.display = 'inline';
+    purchasesError.textContent = "L'achat doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    purchasesError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si l'achat est invalide
+validatePurchases();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+purchasesInput.addEventListener('input', validatePurchases);
+
+// Fonction de validation ONEOFF_PURCHASES
+const oneoff_purchasesInput = document.getElementById('validationCustom04');
+const oneoff_purchasesError = document.getElementById('oneoff_purchases_error');
+
+function validateOneoffPurchases() {
+  const oneoff_purchasesValue = parseFloat(oneoff_purchasesInput.value);
+
+  if (isNaN(oneoff_purchasesValue) || oneoff_purchasesValue < 0.0 || oneoff_purchasesInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    oneoff_purchasesError.style.display = 'inline';
+    oneoff_purchasesError.textContent = "L'achat unique doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    oneoff_purchasesError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si l'achat unique est invalide
+validateOneoffPurchases();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+oneoff_purchasesInput.addEventListener('input', validateOneoffPurchases);
+
+// Fonction de validation INSTALLMENTS_PURCHASES
+const installments_purchaseInput = document.getElementById('validationCustom05');
+const installments_purchaseError = document.getElementById('installments_purchase_error');
+
+function validateInstallmentsPurchase() {
+  const installments_purchaseValue = parseFloat(installments_purchaseInput.value);
+
+  if (isNaN(installments_purchaseValue) || installments_purchaseValue < 0.0 || installments_purchaseInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    installments_purchaseError.style.display = 'inline';
+    installments_purchaseError.textContent = "L'achat échelonné doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    installments_purchaseError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si l'achat échelonné est invalide
+validateInstallmentsPurchase();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+installments_purchaseInput.addEventListener('input', validateInstallmentsPurchase);
+
+
+
+// Fonction de validation CASH_ADVANCE
+const cash_advanceInput = document.getElementById('validationCustom06');
+const cash_advanceError = document.getElementById('cash_advance_error');
+
+function validateCashAdvance() {
+  const cash_advanceValue = parseFloat(cash_advanceInput.value);
+
+  if (isNaN(cash_advanceValue) || cash_advanceValue < 0.0 || cash_advanceInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    cash_advanceError.style.display = 'inline';
+    cash_advanceError.textContent = "L'avance de fond doit être positive et non vide!";
+   
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    cash_advanceError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si l'avance de fond est invalide
+validateCashAdvance();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+cash_advanceInput.addEventListener('input', validateCashAdvance);
+
+// Fonction de validation PURCHASES_FREQUENCY
+const purchases_freqInput = document.getElementById('validationCustom07');
+const purchases_freqError = document.getElementById('purchases_freq_error');
+
+function validatePurchasesFrequency() {
+  const purchases_freqValue = parseFloat(purchases_freqInput.value);
+
+  if (isNaN(purchases_freqValue) || purchases_freqValue > 1.0 || purchases_freqValue < 0.0 || purchases_freqInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    purchases_freqError.style.display = 'inline';
+    purchases_freqError.textContent = "La fréquence d'achat doit être comprise entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    purchases_freqError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la fréquence d'achat est invalide
+validatePurchasesFrequency();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+purchases_freqInput.addEventListener('input', validatePurchasesFrequency);
+
+// Fonction de validation ONEOFF_PURCHASES_FREQUENCY
+const oneoff_purchases_freqInput = document.getElementById('validationCustom08');
+const oneoff_purchases_freqError = document.getElementById('oneoff_purchases_freq_error');
+
+function validateOneoffPurchasesFrequency() {
+  const oneoff_purchases_freqValue = parseFloat(oneoff_purchases_freqInput.value);
+
+  if (isNaN(oneoff_purchases_freqValue) || oneoff_purchases_freqValue > 1.0 || oneoff_purchases_freqValue < 0.0 || oneoff_purchases_freqInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    oneoff_purchases_freqError.style.display = 'inline';
+    oneoff_purchases_freqError.textContent = "La fréquence d'achat unique doit être comprise entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    oneoff_purchases_freqError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la fréquence d'achat unique est invalide
+validateOneoffPurchasesFrequency();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+oneoff_purchases_freqInput.addEventListener('input', validateOneoffPurchasesFrequency);
+
+// Fonction de validation INSTALLMENTS_PURCHASES_FREQUENCY
+const installments_purchases_freqInput = document.getElementById('validationCustom09');
+const installments_purchases_freqError = document.getElementById('purchase_installments_freq_error');
+
+function validateInstallmentsPurchasesFrequency() {
+  const installments_purchases_freqValue = parseFloat(installments_purchases_freqInput.value);
+
+  if (isNaN(installments_purchases_freqValue) || installments_purchases_freqValue > 1.0 || installments_purchases_freqValue < 0.0 || installments_purchases_freqInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    installments_purchases_freqError.style.display = 'inline';
+    installments_purchases_freqError.textContent = "La fréquence d'achat à tempérament doit être comprise entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    installments_purchases_freqError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la fréquence d'achat à tempérament est invalide
+validateInstallmentsPurchasesFrequency();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+installments_purchases_freqInput.addEventListener('input', validateInstallmentsPurchasesFrequency);
+
+// Fonction de validation CASH_ADVANCE_FREQUENCY
+const cash_advance_freqInput = document.getElementById('validationCustom10');
+const cash_advance_freqError = document.getElementById('cash_advance_freq_error');
+
+function validateCashAdvanceFrequency() {
+  const cash_advance_freqValue = parseFloat(cash_advance_freqInput.value);
+
+  if (isNaN(cash_advance_freqValue) || cash_advance_freqValue > 1.0 || cash_advance_freqValue < 0.0 || cash_advance_freqInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    cash_advance_freqError.style.display = 'inline';
+    cash_advance_freqError.textContent = "La fréquence d'achat de fond doit être comprise entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    cash_advance_freqError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la fréquence d'achat de fond est invalide
+validateCashAdvanceFrequency();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+cash_advance_freqInput.addEventListener('input', validateCashAdvanceFrequency);
+
+// Fonction de validation CASH_ADVANCE_TRX
+const cash_advance_trxInput = document.getElementById('validationCustom11');
+const cash_advance_trxError = document.getElementById('cash_advance_trx_error');
+
+function validateCashAdvanceTrx() {
+  const cash_advance_trxValue = parseFloat(cash_advance_trxInput.value);
+
+  if (isNaN(cash_advance_trxValue) || cash_advance_trxValue < 0.0 || cash_advance_trxInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    cash_advance_trxError.style.display = 'inline';
+    cash_advance_trxError.textContent = "La transaction d'avance de fond doit être positive et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    cash_advance_trxError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la transaction d'avance de fond est invalide
+validateCashAdvanceTrx();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+cash_advance_trxInput.addEventListener('input', validateCashAdvanceTrx);
+
+// Fonction de validation PURCHASES_TRX
+const purchases_trxInput = document.getElementById('validationCustom12');
+const purchases_trxError = document.getElementById('purchases_trx_error');
+
+function validatePurchasesTrx() {
+  const purchases_trxValue = parseFloat(purchases_trxInput.value);
+
+  if (isNaN(purchases_trxValue) || purchases_trxValue < 0.0 || purchases_trxInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    purchases_trxError.style.display = 'inline';
+    purchases_trxError.textContent = "La transaction d'achat doit être positive et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    purchases_trxError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la transaction d'achat est invalide
+validatePurchasesTrx();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+purchases_trxInput.addEventListener('input', validatePurchasesTrx);
+
+// Fonction de validation CREDIT_LIMIT
+const credit_limitInput = document.getElementById('validationCustom13');
+const credit_limitError = document.getElementById('credit_limit_error');
+
+function validateCreditLimit() {
+  const credit_limitValue = parseFloat(credit_limitInput.value);
+
+  if (isNaN(credit_limitValue) || credit_limitValue < 0.0 || credit_limitInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    credit_limitError.style.display = 'inline';
+    credit_limitError.textContent = "La limite de crédit doit être positive et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    credit_limitError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si la limite de crédit est invalide
+validateCreditLimit();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+credit_limitInput.addEventListener('input', validateCreditLimit);
+
+// Fonction de validation PAYMENTS
+const paymentsInput = document.getElementById('validationCustom14');
+const paymentsError = document.getElementById('payments_error');
+
+function validatePayments() {
+  const paymentsValue = parseFloat(paymentsInput.value);
+
+  if (isNaN(paymentsValue) || paymentsValue < 0.0 || paymentsInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    paymentsError.style.display = 'inline';
+    paymentsError.textContent = "Le paiement doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    paymentsError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si le paiement est invalide
+validatePayments();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+paymentsInput.addEventListener('input', validatePayments);
+
+// Fonction de validation MINIMUM_PAYMENTS
+const min_paymentsInput = document.getElementById('validationCustom15');
+const min_paymentsError = document.getElementById('min_payments_error');
+
+function validateMinPayments() {
+  const min_paymentsValue = parseFloat(min_paymentsInput.value);
+
+  if (isNaN(min_paymentsValue) || min_paymentsValue < 0.0 || min_paymentsInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    min_paymentsError.style.display = 'inline';
+    min_paymentsError.textContent = "Le paiement minimum doit être positif et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    min_paymentsError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si le paiement minimum est invalide
+validateMinPayments();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+min_paymentsInput.addEventListener('input', validateMinPayments);
+
+// Fonction de validation PRC_FULL_PAYMENT
+const pct_full_paymentInput = document.getElementById('validationCustom16');
+const pct_full_paymentError = document.getElementById('pct_off_full_payment_error');
+
+function validatePctFullPayment() {
+  const pct_full_paymentValue = parseFloat(pct_full_paymentInput.value);
+
+  if (isNaN(pct_full_paymentValue) || pct_full_paymentValue > 1.0 || pct_full_paymentValue < 0.0 || pct_full_paymentInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    pct_full_paymentError.style.display = 'inline';
+    pct_full_paymentError.textContent = "Le taux de paiement intégral doit être compris entre 0 et 1 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    pct_full_paymentError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si le taux de paiement intégral est invalide
+validatePctFullPayment();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+pct_full_paymentInput.addEventListener('input', validatePctFullPayment);
+
+// Fonction de validation TENURE
+const tenureInput = document.getElementById('validationCustom17');
+const tenureError = document.getElementById('tenure_error');
+
+function validateTenure() {
+  const tenureValue = parseInt(tenureInput.value);
+
+  if (isNaN(tenureValue) || tenureValue < 1 || tenureValue > 12 || tenureInput.value.trim() === "") {
+    // Afficher le message d'erreur
+    tenureError.style.display = 'inline';
+    tenureError.textContent = "L'ancienneté doit être comprise entre 1 et 12 et non vide!";
+    bouton_predire.disabled = true;
+  } else {
+    // Cacher le message d'erreur s'il est affiché
+    tenureError.style.display = 'none';
+    return true;
+  }
+}
+
+// Afficher le message d'erreur initial au chargement de la page si l'ancienneté est invalide
+validateTenure();
+
+// Ajouter un écouteur d'événement pour détecter les changements de valeur
+tenureInput.addEventListener('input', validateTenure);
+
+
+
+// Fonction pour vérifier l'état de validation de tous les champs
+function checkValidation() {
+    const isValid =
+      validateBalance() &&
+      validateBalanceFreq() &&
+      validatePurchases() &&
+      validateOneoffPurchases() &&
+      validateInstallmentsPurchase() &&
+      validateCashAdvance() &&
+      validatePurchasesFrequency() &&
+      validateOneoffPurchasesFrequency() &&
+      validateInstallmentsPurchasesFrequency() &&
+      validateCashAdvanceFrequency() &&
+      validateCashAdvanceTrx() &&
+      validatePurchasesTrx() &&
+      validateCreditLimit();
+    bouton_predire.disabled = !isValid;
+  }
+
+  // Ajouter un écouteur d'événement pour détecter les changements de valeur
+  balanceInput.addEventListener('input', checkValidation);
+  balance_freqInput.addEventListener('input', checkValidation);
+  purchasesInput.addEventListener('input', checkValidation);
+  oneoff_purchasesInput.addEventListener('input', checkValidation);
+  installments_purchaseInput.addEventListener('input', checkValidation);
+  cash_advanceInput.addEventListener('input', checkValidation);
+  purchases_freqInput.addEventListener('input', checkValidation);
+  oneoff_purchases_freqInput.addEventListener('input', checkValidation);
+  installments_purchases_freqInput.addEventListener('input', checkValidation);
+  cash_advance_freqInput.addEventListener('input', checkValidation);
+  cash_advance_trxInput.addEventListener('input', checkValidation);
+  purchases_trxInput.addEventListener('input', checkValidation);
+  credit_limitInput.addEventListener('input', checkValidation);
+
+}
+
+// Appeler la fonction de validation du formulaire
+validationForm();
+
 
 </script>
+<!-- Ajoutez ces scripts dans votre page HTML -->
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<!--  Gestion du boutton de soumission de fichier excel côté js -->
+<script>
+	// Écouteur d'événement pour le bouton de classe btn_predire_excel
+	document.querySelector(".btn_predire_excel").addEventListener("click", function() {
+			// Attendre 1000 millisecondes
+			setTimeout(function() {
+			// Afficher le bouton de classe xlsx_file
+			document.querySelector(".xlsx_file").style.display = "block";
+		}, 4500);
+
+		// Récupérer le fichier Excel soumis
+		const fileInput = document.getElementById('predire_excel_form');
+    	const file = fileInput.files[0];
+
+	// Appeler l'API
+	url_api = 'http://localhost:8000/predictions';
+
+
+	
+
+
+
+});
+		document.querySelector(".xlsx_file").addEventListener("click",function(){
+		document.querySelector(".xlsx_file").style.display = "none";
+		 // Afficher les données dans le span de classe "prediction"
+		var table_predictions = document.querySelector('.table_predictions');
+        table_predictions.textContent = file;
+		
+	});
+  </script>
 </body>
 </html>
