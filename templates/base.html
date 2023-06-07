@@ -808,28 +808,134 @@ validationForm();
 			setTimeout(function() {
 			// Afficher le bouton de classe xlsx_file
 			document.querySelector(".xlsx_file").style.display = "block";
-		}, 4500);
+		}, 4000);
 
 		// Récupérer le fichier Excel soumis
 		const fileInput = document.getElementById('predire_excel_form');
     	const file = fileInput.files[0];
-
-	// Appeler l'API
-	url_api = 'http://localhost:8000/predictions';
-
-
-	
-
-
-
 });
 		document.querySelector(".xlsx_file").addEventListener("click",function(){
 		document.querySelector(".xlsx_file").style.display = "none";
 		 // Afficher les données dans le span de classe "prediction"
 		var table_predictions = document.querySelector('.table_predictions');
         table_predictions.textContent = file;
-		
 	});
   </script>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+<script>
+  var ExcelToJSON = function() {
+
+    this.parseExcel = function(file) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        var data = e.target.result;
+        var workbook = XLSX.read(data, {
+          type: 'binary'
+        });
+        workbook.SheetNames.forEach(function(sheetName) {
+          // Here is your object
+          var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+          var json_object = JSON.stringify(XL_row_object);
+
+
+          // console.log(JSON.parse(json_object));
+          var tableau_excel = JSON.parse(json_object);
+          var formData = {
+            "BALANCE":[],
+            "BALANCE_FREQUENCY":[],
+            "PURCHASES":[],
+            "ONEOFF_PURCHASES":[],
+            "INSTALLMENTS_PURCHASES":[],
+            "CASH_ADVANCE":[],
+            "PURCHASES_FREQUENCY":[],
+            "ONEOFF_PURCHASES_FREQUENCY":[],
+            "PURCHASES_INSTALLMENTS_FREQUENCY":[],
+            "CASH_ADVANCE_FREQUENCY":[],
+            "CASH_ADVANCE_TRX":[],
+            "PURCHASES_TRX":[],
+            "CREDIT_LIMIT":[],
+            "PAYMENTS":[],
+            "MINIMUM_PAYMENTS":[],
+            "PRC_FULL_PAYMENT":[],
+            "TENURE":[]
+          };
+          tableau_excel.forEach(function (data) {
+            formData.BALANCE.push(data["BALANCE"]);
+            formData.BALANCE_FREQUENCY.push(data["BALANCE_FREQUENCY"]);
+            formData.PURCHASES.push(data["PURCHASES"]);
+            formData.ONEOFF_PURCHASES.push(data["ONEOFF_PURCHASES"]);
+            formData.INSTALLMENTS_PURCHASES.push(data["INSTALLMENTS_PURCHASES"]);
+            formData.CASH_ADVANCE.push(data["CASH_ADVANCE"]);
+            formData.PURCHASES_FREQUENCY.push(data["PURCHASES_FREQUENCY"]);
+            formData.ONEOFF_PURCHASES_FREQUENCY.push(data["ONEOFF_PURCHASES_FREQUENCY"]);
+            formData.PURCHASES_INSTALLMENTS_FREQUENCY.push(data["PURCHASES_INSTALLMENTS_FREQUENCY"]);
+            formData.CASH_ADVANCE_FREQUENCY.push(data["CASH_ADVANCE_FREQUENCY"]);
+            formData.CASH_ADVANCE_TRX.push(data["CASH_ADVANCE_TRX"]);
+            formData.PURCHASES_TRX.push(data["PURCHASES_TRX"]);
+            formData.CREDIT_LIMIT.push(data["CREDIT_LIMIT"]);
+            formData.PAYMENTS.push(data["PAYMENTS"]);
+            formData.MINIMUM_PAYMENTS.push(data["MINIMUM_PAYMENTS"]);
+            formData.PRC_FULL_PAYMENT.push(data["PRC_FULL_PAYMENT"]);
+            formData.TENURE.push(data["TENURE"]);
+          });
+          // console.table(formData);
+          
+    url_api = 'http://localhost:8000/predictions';
+    fetch(url_api, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Traiter les données de réponse
+        
+        document.querySelector("#sa-close").addEventListener("click", function() {
+        var prediction = data.prediction;
+        formData["PREDICTION"] = [];
+        formData["PREDICTION"].push(...prediction);
+        console.table(formData);
+
+         //document.querySelector(".xlsx_file").addEventListener("click", function() {
+      //var downloadLink = document.createElement('a');
+      //downloadLink.href = URL.createObjectURL(file);
+      //downloadLink.download = file.name.replace('.xlsx', '_predicted.xlsx');
+      //downloadLink.click();
+      //})
+})
+    })
+    .catch(error => {
+        console.error('Une erreur s\'est produite:', error);
+    });
+        })  
+      };
+      reader.onerror = function(ex) {
+        console.log(ex);
+      };
+      reader.readAsBinaryString(file);
+
+    };
+  };
+
+  function handleFileSelect(evt) {
+
+    var files = evt.target.files; // FileList object
+    var xl2json = new ExcelToJSON();
+    xl2json.parseExcel(files[0]);
+  }
+
+  document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+</script>
+<textarea class="form-control" rows=35 cols=120 id="xlx_json"></textarea>
+
 </body>
 </html>

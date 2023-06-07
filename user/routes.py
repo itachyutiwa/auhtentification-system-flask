@@ -13,3 +13,7 @@ def signout():
 @app.route('/user/login', methods=['POST'])
 def login():
   return User().login()
+
+@app.route('/results/prections', methods=['POST'])
+def excel():
+  return User().upload_file()

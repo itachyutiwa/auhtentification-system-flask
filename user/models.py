@@ -53,4 +53,13 @@ class User:
   
 
   
+  def upload_file():
+      if request.method == 'POST':
+          fichier = request.files['predire_excel_form']
+          if fichier:
+              # Charger le fichier Excel dans un DataFrame
+              df = pd.read_excel(fichier)
+              return df.to_html()
+           
 
+    

@@ -125,12 +125,12 @@ def segments():
     }
   return render_template('segments.html', context=context)
 
-@app.route('/prediction/')
+@app.route('/results/prections/')
 def form():
   context = {
     "title":"Formulaire de prédiction| AKILI"
   }
-  return render_template('index.html', context=context)
+  return render_template('upload.html',context=context)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=5000)
